@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import socket from '@/socket.js';
-import {onBeforeMount, ref, Ref} from 'vue';
+import { onBeforeMount, ref, Ref, watch } from 'vue';
 
 interface Message {
   content: string;
@@ -9,6 +9,7 @@ interface Message {
 
 const message = ref('');
 const messageHistory: Ref<Message[]> = ref([]);
+const messageContainer = ref<HTMLElement | null>(null);
 
 const sendMessage = () => {
   const messageToSend = message.value;
@@ -20,11 +21,23 @@ const sendMessage = () => {
 };
 
 socket.on('new message', (message, user) => {
-  messageHistory.value.push({content: message, sender: user});
+  messageHistory.value.push({ content: message, sender: user });
 });
 
 onBeforeMount(() => {
   socket.emit('user joined', 'user' + Math.floor(Math.random() * 1000));
+});
+
+function scrollToBottom() {
+  if (messageContainer.value) {
+    messageContainer.value.scrollTop = messageContainer.value.scrollHeight + 20;
+  }
+}
+
+watch(messageHistory.value, () => {
+  setTimeout(() => {
+    scrollToBottom();
+  }, 100);
 });
 </script>
 
@@ -32,48 +45,59 @@ onBeforeMount(() => {
   <div class="window">
     <div class="header">
       <ul class="menu">
-        <li><img src=""/><span>Invite</span></li>
-        <li><img src=""/><span>Send Files</span></li>
-        <li><img src=""/><span>Video</span></li>
-        <li><img src=""/><span>Voice</span></li>
-        <li><img src=""/><span>Activities</span></li>
-        <li><img src=""/><span>Games</span></li>
+        <li><img src="" /><span>Invite</span></li>
+        <li><img src="" /><span>Send Files</span></li>
+        <li><img src="" /><span>Video</span></li>
+        <li><img src="" /><span>Voice</span></li>
+        <li><img src="" /><span>Activities</span></li>
+        <li><img src="" /><span>Games</span></li>
       </ul>
     </div>
     <div class="content">
       <div class="discussion-container">
         <div class="discussion">
-          <div>To: David</div>
-          <div
+          <div class="receiver-container">To: David</div>
+          <div class="message-container" ref="messageContainer">
+            <div class="caution">
+              <p>
+                Never give out your password or credit card number in an instant
+                message conversation.
+              </p>
+            </div>
+            <span class="separator">--------------</span>
+            <div
+              class="message"
               v-for="(message, index) in messageHistory"
               :key="index"
-              :class="{
-              'user-message': message.sender === 'user',
-              'other-message': message.sender !== 'user',
-            }"
-          >
-            <span>
-              <span class="author">
-              {{ message.sender }} :
-              </span>
-              {{ message.content }}
-            </span>
+            >
+              <span class="author"> {{ message.sender }} says: </span>
+              <span class="msg-content">{{ message.content }}</span>
+            </div>
           </div>
         </div>
         <div class="photo">
-          <img src="/img/coincoin.png" alt="">
+          <img src="/img/coincoin.png" alt="" />
         </div>
       </div>
       <div class="write-container">
         <div class="discussion">
-          <div>test</div>
+          <div class="edit-text">
+            <div>
+              <img />
+              <span>Font</span>
+            </div>
+            <div>
+              <img />
+              <span class="triangle"></span>
+            </div>
+          </div>
           <div class="field">
             <textarea v-model="message"></textarea>
             <button @click="sendMessage">Send</button>
           </div>
         </div>
         <div class="photo">
-          <img src="/img/ouafouaf.png" alt="">
+          <img src="/img/ouafouaf.png" alt="" />
         </div>
       </div>
     </div>
@@ -92,14 +116,14 @@ onBeforeMount(() => {
     display: flex;
     background: rgb(245, 248, 253);
     background: linear-gradient(
-            180deg,
-            rgba(245, 248, 253, 1) 0%,
-            rgba(184, 200, 232, 1) 50%,
-            rgba(245, 248, 253, 1) 100%
+      180deg,
+      rgba(245, 248, 253, 1) 0%,
+      rgba(184, 200, 232, 1) 50%,
+      rgba(245, 248, 253, 1) 100%
     );
     box-sizing: border-box;
     box-shadow: inset #9d9d9d -2px 0 3px 0, inset #878787 0 -2px 3px 0,
-    inset #c5c5c5 0 2px 3px 0;
+      inset #c5c5c5 0 2px 3px 0;
     border-radius: 10px;
 
     .menu {
@@ -108,7 +132,7 @@ onBeforeMount(() => {
       align-items: center;
       gap: 10px;
 
-      span{
+      span {
         display: inline-block;
       }
       span::first-letter {
@@ -119,7 +143,7 @@ onBeforeMount(() => {
 
   > .content {
     box-sizing: border-box;
-    padding: 20px 30px;
+    padding: 10px;
     width: 500px;
     display: flex;
     flex-direction: column;
@@ -140,25 +164,69 @@ onBeforeMount(() => {
 
         > div:first-of-type {
           background: linear-gradient(
-                  180deg,
-                  #dae3f3 0%,
-                  #edf3fb 50%,
-                  #dae3f3 100%
+            180deg,
+            #dae3f3 0%,
+            #edf3fb 50%,
+            #dae3f3 100%
           );
           border-bottom: 1px solid gray;
           border-radius: 8px 8px 0 0;
           padding: 0 6px;
+
+          &.receiver-container {
+            padding: 4px 6px;
+          }
+
+          &.edit-text {
+            display: flex;
+            align-items: center;
+
+            > div {
+              display: flex;
+              align-items: center;
+              gap: 4px;
+
+              .triangle {
+                width: 0;
+                height: 0;
+                border-left: 2px solid transparent;
+                border-right: 2px solid transparent;
+
+                border-top: 4px solid #000;
+              }
+            }
+          }
         }
 
-        .other-message {
-          background-color: #f1f1f1;
-          border-radius: 0 8px 8px 8px;
-          padding: 6px;
-          margin: 6px;
-          align-self: flex-start;
+        .message-container {
+          overflow: auto;
+          height: 150px;
+          display: flex;
+          flex-direction: column;
 
-          .author {
-            font-weight: bold;
+          .caution {
+            padding: 4px;
+            color: #585858;
+          }
+
+          .separator {
+            padding: 2px 0 4px 4px;
+          }
+
+          .message {
+            padding: 0 4px 4px 4px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+
+            .author {
+              color: #585858;
+            }
+
+            .msg-content {
+              padding-left: 20px;
+            }
           }
         }
 
