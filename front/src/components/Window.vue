@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { vDraggable } from '@neodrag/vue';
+import {Tab} from "@/_interfaces/Tab.ts";
+
+const props = defineProps<{ tab: Tab }>();
 </script>
 
 <template>
-  <div v-draggable="{ bounds: 'parent' }" class="window">
+  <div v-draggable="{ bounds: 'body' }" class="window">
     <div class="head">
-      <div><img src="/public/icons/msn-default.png" /><span>Coucou</span></div>
+      <div><img :src="'/icons/' + tab.icon" /><span>{{ tab.title }}</span></div>
       <div>
         <button></button>
         <button></button>

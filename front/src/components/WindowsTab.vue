@@ -1,16 +1,14 @@
 <script setup lang="ts">
+import {Tab} from "@/_interfaces/Tab.ts";
+
 defineProps<{
-  tab: {
-    title: string
-    icon: string
-    active: boolean
-  }
+  tab: Tab
 }>()
 </script>
 
 <template>
   <div class="tab">
-    <span>{{ tab.icon }}</span>
+    <img :src="'/icons/' + tab.icon" alt="">
     <span>{{ tab.title }}</span>
   </div>
 </template>
@@ -37,6 +35,11 @@ defineProps<{
   text-overflow: ellipsis;
   &:hover{
     background: #4A8DFC;
+  }
+
+  img{
+    width: 1.25rem;
+    height: auto;
   }
 }
 </style>
