@@ -1,8 +1,9 @@
-@import "utils/reset";
+@import 'utils/reset';
+@import './fonts';
 
 body {
   position: relative;
-  &::before{
+  &::before {
     z-index: -1;
     content: '';
     position: absolute;
