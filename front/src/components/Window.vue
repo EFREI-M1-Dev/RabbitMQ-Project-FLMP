@@ -6,11 +6,17 @@ const props = defineProps<{ tab: Tab }>();
 import socket from '@/socket.js'; // Assurez-vous de corriger le chemin si nécessaire
 import { ref } from 'vue';
 
+
+const emit = defineEmits(['closeWindow']);
 const messages = ref([]);
 
 /* socket.on('message', (message) => {
   messages.value.push(message);
 }); */
+
+function closeWindow(type: string){
+  emit('closeWindow', type);
+}
 
 const sendMessage = () => {
   socket.emit('user joined', 'Hello from Vue.js');
@@ -22,9 +28,12 @@ const sendMessage = () => {
     <div class="head">
       <div><img :src="'/icons/' + tab.icon" /><span>{{ tab.title }}</span></div>
       <div>
-        <button v-click="sendMessage"></button>
-        <button></button>
-        <button></button>
+        <button @click="closeWindow(tab.type)">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1.8L8.2 9" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M1 9L8.2 1.8" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
       </div>
     </div>
     <div class="content-border">
@@ -44,7 +53,7 @@ const sendMessage = () => {
 <style scoped lang="scss">
 .window {
   width: 500px;
-  display: flex;
+  display: block;
   flex-direction: column;
   border-radius: 10px;
 
