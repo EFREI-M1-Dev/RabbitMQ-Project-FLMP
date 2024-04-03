@@ -1,9 +1,9 @@
-@import "utils/reset";
-
+@import 'utils/reset';
+@import './fonts';
 
 body {
   position: relative;
-  &::before{
+  &::before {
     content: '';
     position: absolute;
     width: 100vw;
