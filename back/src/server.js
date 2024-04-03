@@ -8,9 +8,7 @@ const server = http.createServer(app);
 
 const PORT = process.env.PORT || 3000;
 
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/index.html');
-});
+app.use('/', require('./controllers'));
 
 const io = socketIo(server, {
   cors: {

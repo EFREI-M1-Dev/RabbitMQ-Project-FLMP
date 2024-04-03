@@ -11,6 +11,8 @@ const message = ref('');
 const messageHistory: Ref<Message[]> = ref([]);
 
 const sendMessage = () => {
+  if (message.value === '') return;
+
   const messageToSend = message.value;
   socket.emit('new message', messageToSend);
   /*
@@ -21,6 +23,10 @@ const sendMessage = () => {
 
 socket.on('new message', (message, user) => {
   messageHistory.value.push({content: message, sender: user});
+});
+
+socket.on('user joined', (user) => {
+  messageHistory.value.push({content: 'a rejoint la conversation.', sender: user});
 });
 
 onBeforeMount(() => {
