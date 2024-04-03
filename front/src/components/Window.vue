@@ -2,7 +2,13 @@
 import { vDraggable } from '@neodrag/vue';
 import { Tab } from '@/_interfaces/Tab.ts';
 
-const props = defineProps<{ tab: Tab }>();
+defineProps<{ tab: Tab }>();
+const emit = defineEmits(['closeWindow']);
+
+function closeWindow(type: string){
+  emit('closeWindow', type);
+}
+
 </script>
 
 <template>
@@ -12,10 +18,6 @@ const props = defineProps<{ tab: Tab }>();
         <img :src="'/icons/' + tab.icon" /><span>{{ tab.title }}</span>
       </div>
       <div>
-        <button></button>
-        <button></button>
-        <button></button>
-
         <button @click="closeWindow(tab.type)">
           <svg
             width="10"

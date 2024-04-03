@@ -16,7 +16,7 @@ const modals = ref({
       title: 'Explorer',
       icon: 'explorer.png',
       active: false,
-      content: WindowMSN,
+      content: '',
     },
   },
   msn: {
