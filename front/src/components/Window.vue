@@ -1,5 +1,17 @@
 <script setup lang="ts">
 import { vDraggable } from '@neodrag/vue';
+import socket from '@/socket.js'; // Assurez-vous de corriger le chemin si nécessaire
+import { ref } from 'vue';
+
+const messages = ref([]);
+
+/* socket.on('message', (message) => {
+  messages.value.push(message);
+}); */
+
+const sendMessage = () => {
+  socket.emit('user joined', 'Hello from Vue.js');
+};
 </script>
 
 <template>
@@ -7,7 +19,7 @@ import { vDraggable } from '@neodrag/vue';
     <div class="head">
       <div><img src="/public/icons/msn-default.png" /><span>Coucou</span></div>
       <div>
-        <button></button>
+        <button v-click="sendMessage"></button>
         <button></button>
         <button></button>
       </div>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import WindowsTaskBar from './components/WindowsTaskBar.vue';
+import Window from './components/Window.vue';
 import { Tab } from '@/_interfaces/Tab.ts';
 import Modal from '@/components/Modal.vue';
 import { Ref, ref } from 'vue';
@@ -34,11 +35,11 @@ function toggleModal(modalName: 'app' | 'msn') {
 
   <button class="toggle__modal" @dblclick="toggleModal('msn')">MSN</button>
 
-  <div class="modal">
-    <Modal v-if="modals.app.show" :title="modals.app.tab.title" />
+  <Modal v-if="modals.app.show" :title="modals.app.tab.title" />
 
-    <Modal v-if="modals.msn.show" :title="modals.msn.tab.title" />
-  </div>
+  <Modal v-if="modals.msn.show" :title="modals.msn.tab.title" />
+
+  <Window />
 
   <WindowsTaskBar :tabs="tabOpens" />
 </template>
