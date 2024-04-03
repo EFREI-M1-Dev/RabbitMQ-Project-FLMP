@@ -1,4 +1,14 @@
+@import "utils/reset";
 
-html, body{
-  background-color: $blue;
+
+body {
+  position: relative;
+  &::before{
+    content: '';
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-clip: border-box;
+    background: url('/img/windows_xp.jpg') center / cover no-repeat;
+  }
 }
