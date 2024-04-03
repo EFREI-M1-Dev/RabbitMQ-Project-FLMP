@@ -3,16 +3,6 @@
 
 body {
   position: relative;
-  &::before {
-    z-index: -1;
-    content: '';
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    background-clip: border-box;
-    background: url('/img/windows_xp.jpg') center / cover no-repeat;
-    // background: url('/img/windows_shrek.jpg') center / cover no-repeat;
-  }
 
   #app {
     height: 95.3vh;
