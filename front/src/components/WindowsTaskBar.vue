@@ -12,7 +12,7 @@
   position: fixed;
   z-index: -1;
   width: 100vw;
-  height: 51px;
+  height: 4.7vh;
   left: 0;
   bottom: 0;
   background: #245DDB;
@@ -22,6 +22,7 @@
     position: absolute;
     left: 0;
     bottom: 0;
+    height: 4.7vh;
 
     &:hover{
       cursor: pointer;
