@@ -1,18 +1,22 @@
-const app = require('express')();
-const server = require('http').createServer(app);
-
-/* const io = require('socket.io')(server); */
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
 const amqp = require('amqplib/callback_api');
-const port = process.env.PORT || 3000;
+
+const PORT = process.env.PORT || 3000;
+
+const app = express();
+const server = http.createServer(app);
 
 app.get('/', function (req, res) {
   res.sendfile('index.html');
 });
 
-const io = require('socket.io')(server, {
+const io = socketIo(server, {
   cors: {
-    origin: '*',
-  },
+      origin: "*",
+      methods: ["GET", "POST"]
+  }
 });
 
 amqp.connect('amqp://localhost', function (error0, connection) {
@@ -66,6 +70,6 @@ amqp.connect('amqp://localhost', function (error0, connection) {
   });
 });
 
-server.listen(port, function () {
-  console.log(`Listening on port ${port}`);
+server.listen(PORT, function () {
+  console.log(`Listening on port ${PORT}`);
 });
