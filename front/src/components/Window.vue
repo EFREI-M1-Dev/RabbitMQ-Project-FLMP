@@ -3,6 +3,18 @@ import { vDraggable } from '@neodrag/vue';
 import {Tab} from "@/_interfaces/Tab.ts";
 
 const props = defineProps<{ tab: Tab }>();
+import socket from '@/socket.js'; // Assurez-vous de corriger le chemin si nécessaire
+import { ref } from 'vue';
+
+const messages = ref([]);
+
+/* socket.on('message', (message) => {
+  messages.value.push(message);
+}); */
+
+const sendMessage = () => {
+  socket.emit('user joined', 'Hello from Vue.js');
+};
 </script>
 
 <template>
@@ -10,7 +22,7 @@ const props = defineProps<{ tab: Tab }>();
     <div class="head">
       <div><img :src="'/icons/' + tab.icon" /><span>{{ tab.title }}</span></div>
       <div>
-        <button></button>
+        <button v-click="sendMessage"></button>
         <button></button>
         <button></button>
       </div>
