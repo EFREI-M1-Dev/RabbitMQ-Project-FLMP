@@ -3,10 +3,10 @@ const http = require('http');
 const socketIo = require('socket.io');
 const amqp = require('amqplib/callback_api');
 
-const PORT = process.env.PORT || 3000;
-
 const app = express();
 const server = http.createServer(app);
+
+const PORT = process.env.PORT || 3000;
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
@@ -14,9 +14,9 @@ app.get('/', function (req, res) {
 
 const io = socketIo(server, {
   cors: {
-      origin: "*",
-      methods: ["GET", "POST"]
-  }
+    origin: '*',
+    methods: ['GET', 'POST'],
+  },
 });
 
 amqp.connect('amqp://localhost', function (error0, connection) {
@@ -65,7 +65,7 @@ amqp.connect('amqp://localhost', function (error0, connection) {
       },
       {
         noAck: true,
-      }
+      },
     );
   });
 });
