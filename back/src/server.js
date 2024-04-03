@@ -3,20 +3,20 @@ const http = require('http');
 const socketIo = require('socket.io');
 const amqp = require('amqplib/callback_api');
 
-const PORT = process.env.PORT || 3000;
-
 const app = express();
 const server = http.createServer(app);
 
+const PORT = process.env.PORT || 3000;
+
 app.get('/', function (req, res) {
-  res.sendfile('index.html');
+  res.sendFile(__dirname + '/index.html');
 });
 
 const io = socketIo(server, {
   cors: {
-      origin: "*",
-      methods: ["GET", "POST"]
-  }
+    origin: '*',
+    methods: ['GET', 'POST'],
+  },
 });
 
 amqp.connect('amqp://localhost', function (error0, connection) {
@@ -28,10 +28,10 @@ amqp.connect('amqp://localhost', function (error0, connection) {
       throw error1;
     }
 
-    const queue = 'hello';
+    const queue = 'chat';
 
     channel.assertQueue(queue, {
-      durable: false,
+      durable: true,
     });
 
     io.on('connection', (socket) => {
@@ -46,8 +46,10 @@ amqp.connect('amqp://localhost', function (error0, connection) {
           username: socket.username,
         };
 
-        channel.sendToQueue(queue, Buffer.from(JSON.stringify(messageData)));
-        console.log(' [x] Sent %s', msg);
+        channel.sendToQueue(queue, Buffer.from(JSON.stringify(messageData)), {
+          persistent: true,
+        });
+        console.log('Sent', msg);
       });
     });
 
@@ -56,16 +58,14 @@ amqp.connect('amqp://localhost', function (error0, connection) {
       function (msg) {
         const messageData = JSON.parse(msg.content.toString());
         console.log(
-          ' [x] Received %s from %s',
-          messageData.message,
-          messageData.username
+          `Received ${messageData.message} from ${messageData.username}`,
         );
 
         io.emit('new message', messageData.message, messageData.username);
       },
       {
         noAck: true,
-      }
+      },
     );
   });
 });
