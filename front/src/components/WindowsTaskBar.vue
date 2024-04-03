@@ -1,9 +1,19 @@
 <script setup lang="ts">
+import WindowsTab from "@/components/WindowsTab.vue";
+import {Tab} from "@/_interfaces/Tab.ts";
+
+defineProps<{
+  tabs: Tab[]
+}>()
 </script>
 
 <template>
   <div class="taskbar">
     <img src="/img/start_btn.png" alt="">
+
+    <div class="taskbar__tabs">
+      <WindowsTab v-for="tab in tabs" :key="tab.title" :tab="tab" />
+    </div>
   </div>
 </template>
 
@@ -28,6 +38,14 @@
       cursor: pointer;
       opacity: .9;
     }
+  }
+
+  &__tabs{
+    margin-left: 170px;
+    display: flex;
+    gap: .5rem;
+    height: 100%;
+    align-items: center;
   }
 }
 </style>
