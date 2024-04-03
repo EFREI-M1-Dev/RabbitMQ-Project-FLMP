@@ -1,28 +1,18 @@
 <script setup lang="ts">
 import { vDraggable } from '@neodrag/vue';
-import {Tab} from "@/_interfaces/Tab.ts";
+import { Tab } from '@/_interfaces/Tab.ts';
 
 const props = defineProps<{ tab: Tab }>();
-import socket from '@/socket.js'; // Assurez-vous de corriger le chemin si nécessaire
-import { ref } from 'vue';
-
-const messages = ref([]);
-
-/* socket.on('message', (message) => {
-  messages.value.push(message);
-}); */
-
-const sendMessage = () => {
-  socket.emit('user joined', 'Hello from Vue.js');
-};
 </script>
 
 <template>
   <div v-draggable="{ bounds: 'body' }" class="window">
     <div class="head">
-      <div><img :src="'/icons/' + tab.icon" /><span>{{ tab.title }}</span></div>
       <div>
-        <button v-click="sendMessage"></button>
+        <img :src="'/icons/' + tab.icon" /><span>{{ tab.title }}</span>
+      </div>
+      <div>
+        <button></button>
         <button></button>
         <button></button>
       </div>
@@ -36,17 +26,18 @@ const sendMessage = () => {
         <li>Tools</li>
         <li>Help</li>
       </ul>
-      <div class="content">testetst</div>
+
+      <component class="content" :is="tab.content" />
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .window {
-  width: 500px;
   display: flex;
   flex-direction: column;
   border-radius: 10px;
+  width: fit-content;
 
   .head {
     font-family: 'Source Sans 3', sans-serif;
@@ -114,7 +105,7 @@ const sendMessage = () => {
     border-width: 0 3px 3px 3px;
     border-style: solid;
     border-color: #004cff;
-    box-shadow: inset #0732d9 2px 2px 2px 0, inset #00138c -2px -2px 2px 0;
+    background-color: #fff;
 
     .options-bar {
       display: flex;
@@ -129,6 +120,8 @@ const sendMessage = () => {
 
     .content {
       background: white;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
     }
   }
 }
