@@ -27,7 +27,7 @@ socket.on('new message', (message, user) => {
 });
 
 socket.on('user joined', (user) => {
-  messageHistory.value.push({content: 'a rejoint la conversation.', sender: user});
+  messageHistory.value.push({content: 'has joined the conversation.', sender: user});
 });
 
 onBeforeMount(() => {
@@ -51,12 +51,12 @@ watch(messageHistory.value, () => {
   <div class="window">
     <div class="header">
       <ul class="menu">
-        <li><img src="" /><span>Invite</span></li>
-        <li><img src="" /><span>Send Files</span></li>
-        <li><img src="" /><span>Video</span></li>
-        <li><img src="" /><span>Voice</span></li>
-        <li><img src="" /><span>Activities</span></li>
-        <li><img src="" /><span>Games</span></li>
+        <li><img src="/icons/msn-default.png" /><span>Invite</span></li>
+        <li><img src="/icons/msn-default.png" /><span>Send Files</span></li>
+        <li><img src="/icons/msn-default.png" /><span>Video</span></li>
+        <li><img src="/icons/msn-default.png" /><span>Voice</span></li>
+        <li><img src="/icons/msn-default.png" /><span>Activities</span></li>
+        <li><img src="/icons/msn-default.png" /><span>Games</span></li>
       </ul>
     </div>
     <div class="content">
@@ -130,13 +130,24 @@ watch(messageHistory.value, () => {
     box-sizing: border-box;
     box-shadow: inset #9d9d9d -2px 0 3px 0, inset #878787 0 -2px 3px 0,
       inset #c5c5c5 0 2px 3px 0;
-    border-radius: 10px;
+    border-radius: 5px;
 
     .menu {
       padding: 0 30px;
       display: flex;
       align-items: center;
       gap: 10px;
+
+      li {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        img {
+          width: 40px;
+          aspect-ratio: 1 / 1;
+        }
+      }
 
       span {
         display: inline-block;

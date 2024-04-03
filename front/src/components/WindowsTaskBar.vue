@@ -5,6 +5,16 @@ import {Tab} from "@/_interfaces/Tab.ts";
 defineProps<{
   tabs: Tab[]
 }>()
+
+function formatTime() {
+  const now = new Date();
+  let hours = now.getHours();
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+  return `${hours}:${minutes} ${ampm}`;
+}
 </script>
 
 <template>
@@ -14,12 +24,20 @@ defineProps<{
     <div class="taskbar__tabs">
       <WindowsTab v-for="tab in tabs" :key="tab.title" :tab="tab" />
     </div>
+
+    <div class="taskbar__tray">
+      {{formatTime()}}
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .taskbar{
+  font-family: 'Source Sans 3', sans-serif;
   position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   z-index: -1;
   width: 100vw;
   height: 4.7vh;
@@ -46,6 +64,18 @@ defineProps<{
     gap: .125rem;
     height: 100%;
     align-items: center;
+  }
+
+  &__tray{
+    color: white;
+    background: linear-gradient(180deg, rgb(32 176 251) 0%, rgb(14 137 234) 50%, rgb(21 147 233) 100%);
+    box-sizing: border-box;
+    box-shadow: inset #22b5fc -2px 0 3px 0, inset #1481df 0 -2px 3px 0, inset #1779a8 0 2px 3px 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+    padding-left: 10px;
   }
 }
 </style>
