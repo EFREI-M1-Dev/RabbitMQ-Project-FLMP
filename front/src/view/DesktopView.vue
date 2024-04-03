@@ -13,7 +13,7 @@ const modals = ref({
     show: false,
     tab: {
       type: 'exp',
-      title: 'Explorer',
+      title: 'My documents',
       icon: 'explorer.png',
       active: false,
       content: '',
@@ -27,6 +27,26 @@ const modals = ref({
       icon: 'msn-default.png',
       active: false,
       content: WindowMSN,
+    },
+  },
+  cmp: {
+    show: false,
+    tab: {
+      type: 'cmp',
+      title: 'My Computer',
+      icon: 'computer.png',
+      active: false,
+      content: '',
+    },
+  },
+  trash: {
+    show: false,
+    tab: {
+      type: 'trash',
+      title: 'Recycle bin',
+      icon: 'trash.png',
+      active: false,
+      content: '',
     },
   },
 });
@@ -88,6 +108,6 @@ const handleCloseWindow = (type: ModalName) => {
   margin: auto;
   padding: 2rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
 }
 </style>

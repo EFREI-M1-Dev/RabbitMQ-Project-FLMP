@@ -141,6 +141,12 @@ function closeWindow(type: string){
       height: 28px;
       padding: 0 14px;
       gap: 18px;
+
+      li{
+        &::first-letter{
+          text-decoration: underline;
+        }
+      }
     }
 
     .content {

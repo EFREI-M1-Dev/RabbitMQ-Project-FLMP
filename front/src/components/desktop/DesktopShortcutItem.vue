@@ -65,6 +65,7 @@ const handleDoubleClick = () => {
       align-items: center;
       text-align: center;
       user-select: none;
+      text-transform: capitalize;
 
       color: #FFFFFF;
 

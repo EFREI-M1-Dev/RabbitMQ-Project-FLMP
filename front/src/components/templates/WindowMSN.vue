@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import socket from '@/socket.js';
-import { ref, Ref } from 'vue';
+import {onBeforeMount, ref, Ref} from 'vue';
 
 interface Message {
   content: string;
@@ -12,13 +12,19 @@ const messageHistory: Ref<Message[]> = ref([]);
 
 const sendMessage = () => {
   const messageToSend = message.value;
-  socket.emit('user joined', messageToSend);
-  messageHistory.value.push({ content: messageToSend, sender: 'user' });
+  socket.emit('new message', messageToSend);
+  /*
+    messageHistory.value.push({ content: messageToSend, sender: 'user' });
+  */
   message.value = '';
 };
 
 socket.on('new message', (message, user) => {
-  messageHistory.value.push({ content: message, sender: user });
+  messageHistory.value.push({content: message, sender: user});
+});
+
+onBeforeMount(() => {
+  socket.emit('user joined', 'user' + Math.floor(Math.random() * 1000));
 });
 </script>
 
@@ -26,12 +32,12 @@ socket.on('new message', (message, user) => {
   <div class="window">
     <div class="header">
       <ul class="menu">
-        <li><img src="" /><span>Invite</span></li>
-        <li><img src="" /><span>Send Files</span></li>
-        <li><img src="" /><span>Video</span></li>
-        <li><img src="" /><span>Voice</span></li>
-        <li><img src="" /><span>Activities</span></li>
-        <li><img src="" /><span>Games</span></li>
+        <li><img src=""/><span>Invite</span></li>
+        <li><img src=""/><span>Send Files</span></li>
+        <li><img src=""/><span>Video</span></li>
+        <li><img src=""/><span>Voice</span></li>
+        <li><img src=""/><span>Activities</span></li>
+        <li><img src=""/><span>Games</span></li>
       </ul>
     </div>
     <div class="content">
@@ -39,17 +45,24 @@ socket.on('new message', (message, user) => {
         <div class="discussion">
           <div>To: David</div>
           <div
-            v-for="(message, index) in messageHistory"
-            :key="index"
-            :class="{
+              v-for="(message, index) in messageHistory"
+              :key="index"
+              :class="{
               'user-message': message.sender === 'user',
               'other-message': message.sender !== 'user',
             }"
           >
-            <span>{{ message.sender }} {{ message.content }}</span>
+            <span>
+              <span class="author">
+              {{ message.sender }} :
+              </span>
+              {{ message.content }}
+            </span>
           </div>
         </div>
-        <div>Photo</div>
+        <div class="photo">
+          <img src="/img/coincoin.png" alt="">
+        </div>
       </div>
       <div class="write-container">
         <div class="discussion">
@@ -59,7 +72,9 @@ socket.on('new message', (message, user) => {
             <button @click="sendMessage">Send</button>
           </div>
         </div>
-        <div>Photo</div>
+        <div class="photo">
+          <img src="/img/ouafouaf.png" alt="">
+        </div>
       </div>
     </div>
   </div>
@@ -77,14 +92,14 @@ socket.on('new message', (message, user) => {
     display: flex;
     background: rgb(245, 248, 253);
     background: linear-gradient(
-      180deg,
-      rgba(245, 248, 253, 1) 0%,
-      rgba(184, 200, 232, 1) 50%,
-      rgba(245, 248, 253, 1) 100%
+            180deg,
+            rgba(245, 248, 253, 1) 0%,
+            rgba(184, 200, 232, 1) 50%,
+            rgba(245, 248, 253, 1) 100%
     );
     box-sizing: border-box;
     box-shadow: inset #9d9d9d -2px 0 3px 0, inset #878787 0 -2px 3px 0,
-      inset #c5c5c5 0 2px 3px 0;
+    inset #c5c5c5 0 2px 3px 0;
     border-radius: 10px;
 
     .menu {
@@ -92,6 +107,13 @@ socket.on('new message', (message, user) => {
       display: flex;
       align-items: center;
       gap: 10px;
+
+      span{
+        display: inline-block;
+      }
+      span::first-letter {
+        text-decoration: underline;
+      }
     }
   }
 
@@ -118,14 +140,26 @@ socket.on('new message', (message, user) => {
 
         > div:first-of-type {
           background: linear-gradient(
-            180deg,
-            #dae3f3 0%,
-            #edf3fb 50%,
-            #dae3f3 100%
+                  180deg,
+                  #dae3f3 0%,
+                  #edf3fb 50%,
+                  #dae3f3 100%
           );
           border-bottom: 1px solid gray;
           border-radius: 8px 8px 0 0;
           padding: 0 6px;
+        }
+
+        .other-message {
+          background-color: #f1f1f1;
+          border-radius: 0 8px 8px 8px;
+          padding: 6px;
+          margin: 6px;
+          align-self: flex-start;
+
+          .author {
+            font-weight: bold;
+          }
         }
 
         .field {
@@ -149,8 +183,16 @@ socket.on('new message', (message, user) => {
         }
       }
 
+      > .photo {
+        img {
+          width: 100%;
+        }
+      }
+
       > div:last-of-type {
         border: 1px solid gray;
+        border-radius: 8px;
+        overflow: hidden;
         aspect-ratio: 1/1;
       }
     }
