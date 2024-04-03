@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Hello!</title>
+   </head>
+   <body>
+    <form action="" class="footer">
+        <div
+            id="typing"
+            class="animate__animated animate__fadeInUp ml-3 hide"
+        ></div>
+        <div class="input-group p-3">
+            <input
+                id="messages-input"
+                autocomplete="off"
+                maxlength="1000"
+                class="form-control"
+                placeholder="Input"
+            />
+            <button class="btn btn-primary">
+                Send <i class="uil uil-message"></i>
+            </button>
+        </div>
+    </form>
+    </body>
+</html>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+    const socket = io();
+
+    // User join
+    document.addEventListener("DOMContentLoaded", () => {
+        socket.emit("user joined", Math.random());
+    });
+
+    socket.on("user joined", (user) => {
+        const newP = document.createElement('p');
+        newP.textContent = `${user} joined.`; 
+        document.body.appendChild(newP);
+    });
+
+    // Send message
+    document.querySelector("form").addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        if (document.querySelector("#messages-input").value != "") {
+            console.log(document.querySelector("#messages-input").value);
+            socket.emit(
+                "new message",
+                document.querySelector("#messages-input").value
+            );
+        }
+
+        document.querySelector("#messages-input").value = "";
+        return false;
+    });
+
+    socket.on("new message", (msg, user) => {
+        const newPM = document.createElement('p');
+        newPM.textContent = ` - ${user}: ${msg}`; 
+        document.body.appendChild(newPM);
+    });
+</script>
