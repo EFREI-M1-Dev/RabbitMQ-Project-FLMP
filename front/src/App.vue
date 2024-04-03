@@ -6,7 +6,7 @@ import { Ref, ref} from 'vue'
 
 const tabOpens: Ref<Tab[]> = ref([])
 const modals = ref({
-  app: { show: false, tab: { title: 'Explorateur de fichiers', icon: '📁', active: false } },
+  app: { show: false, tab: { title: 'Explorateur', icon: '📁', active: false } },
   msn: { show: false, tab: { title: 'MSN', icon: '📧', active: false } }
 })
 

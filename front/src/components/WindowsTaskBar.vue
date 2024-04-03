@@ -43,7 +43,7 @@ defineProps<{
   &__tabs{
     margin-left: 170px;
     display: flex;
-    gap: .5rem;
+    gap: .125rem;
     height: 100%;
     align-items: center;
   }
