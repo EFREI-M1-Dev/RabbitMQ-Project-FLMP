@@ -9,14 +9,13 @@ const props = defineProps<{ tab: Tab }>();
   <div v-draggable="{ bounds: 'body' }" class="window">
     <div class="head">
       <div>
-        <<<<<<< HEAD
         <img :src="'/icons/' + tab.icon" /><span>{{ tab.title }}</span>
       </div>
       <div>
         <button></button>
         <button></button>
         <button></button>
-        =======
+
         <button @click="closeWindow(tab.type)">
           <svg
             width="10"
@@ -39,7 +38,6 @@ const props = defineProps<{ tab: Tab }>();
             />
           </svg>
         </button>
-        >>>>>>> ef74aa4bda4a9b6ee2f49dfedf91d0eb7b412cf8
       </div>
     </div>
     <div class="content-border">

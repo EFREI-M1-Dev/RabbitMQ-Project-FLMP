@@ -9,10 +9,11 @@ const emit = defineEmits(['openedTabs']);
 
 const tabOpens: Ref<Tab[]> = ref([]);
 const modals = ref({
-  app: {
+  exp: {
     show: false,
     tab: {
-      title: 'Explorateur',
+      type: 'exp',
+      title: 'Explorer',
       icon: 'explorer.png',
       active: false,
       content: WindowMSN,
@@ -21,6 +22,7 @@ const modals = ref({
   msn: {
     show: false,
     tab: {
+      type: 'msn',
       title: 'MSN',
       icon: 'msn-default.png',
       active: false,
