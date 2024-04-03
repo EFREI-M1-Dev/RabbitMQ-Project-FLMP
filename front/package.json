@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@neodrag/vue": "^2.0.3",
     "sass": "^1.72.0",
     "vue": "^3.4.21"
   },
