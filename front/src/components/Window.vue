@@ -12,7 +12,7 @@ function closeWindow(type: string){
 </script>
 
 <template>
-  <div v-draggable="{ bounds: 'body' }" class="window">
+  <div v-draggable="{ bounds: 'body', handle: '.head' }" class="window">
     <div class="head">
       <div>
         <img :src="'/icons/' + tab.icon" /><span>{{ tab.title }}</span>
