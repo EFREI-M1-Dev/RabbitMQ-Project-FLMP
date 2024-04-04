@@ -65,7 +65,7 @@ watch(messageHistory.value, () => {
     <div class="content">
       <div class="discussion-container">
         <div class="discussion">
-          <div class="receiver-container">To: David</div>
+          <div class="receiver-container">To: <span>David</span> &lt;david@windows.net&gt;</div>
           <div class="message-container" ref="messageContainer">
             <div class="caution">
               <p>
@@ -93,7 +93,6 @@ watch(messageHistory.value, () => {
           <div class="edit-text">
             <div>
               <img src="/icons/serif.png" />
-              <span>Font</span>
             </div>
             <div>
               <img src="/icons/regular_smile.png" />
@@ -172,6 +171,7 @@ watch(messageHistory.value, () => {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    background: linear-gradient(170deg, #d7e3f8 0%, #f1f6ff 50%);
 
     > .discussion-container,
     .write-container {
@@ -200,6 +200,12 @@ watch(messageHistory.value, () => {
 
           &.receiver-container {
             padding: 4px 6px;
+            color: gray;
+
+            span {
+              font-weight: bold;
+              color: black
+            }
           }
 
           &.edit-text {
@@ -235,6 +241,7 @@ watch(messageHistory.value, () => {
           height: 150px;
           display: flex;
           flex-direction: column;
+          background-color: white;
 
           .caution {
             padding: 4px;
@@ -267,6 +274,7 @@ watch(messageHistory.value, () => {
           align-items: center;
           height: 100%;
           overflow: hidden;
+          background-color: white;
 
           textarea {
             border: none;
@@ -282,10 +290,14 @@ watch(messageHistory.value, () => {
 
           button {
             height: 60%;
-            width: 25%;
+            width: 20%;
             cursor: pointer;
-            border: 1px solid gray;
+            border: 1px solid #8d9195;
+            box-shadow: inset #a0b2d3 -2px 0 3px 0, inset #a0b2d3 0 -2px 3px 0, inset #ffffff 0 2px 3px 0;
             border-radius: 4px;
+            margin: 5px;
+            color: #7b848f;
+            background-color: #fbfdfd;
           }
         }
       }
