@@ -141,6 +141,10 @@ const handleSubmit = (e: any) => {
           grid-template-columns: 80px 1fr;
           padding: 20px 100px 20px 10px;
           gap: 10px;
+          font-family: Arial, Helvetica, sans-serif;
+          text-wrap: nowrap;
+          font-size: 14px;
+          align-items: center;
 
           label {
             &::first-letter {
