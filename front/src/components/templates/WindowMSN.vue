@@ -185,6 +185,7 @@ watch(messageHistory.value, () => {
         display: flex;
         flex-direction: column;
         position: relative;
+        overflow: hidden;
 
         > div:first-of-type {
           background: linear-gradient(

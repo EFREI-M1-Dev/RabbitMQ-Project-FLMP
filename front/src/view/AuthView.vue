@@ -15,14 +15,23 @@ const handleSubmit = (e: any) => {
         <div class="content">
           <div class="header">
             <img src="/icons/windows_xp_pro.svg" />
+            <div>
+              <span>Copyright © 1985-2001</span>
+              <span>Microsoft Corporation</span>
+            </div>
+            <img src="/icons/microsoft.png" />
           </div>
           <form @submit="handleSubmit">
-            <label for="username">Username:</label>
+            <label for="username">User name:</label>
             <input name="username" type="text" />
             <label for="password">Password:</label>
             <input name="password" type="password" />
-            <button type="submit">Submit</button>
           </form>
+          <div>
+            <button>OK</button>
+            <button>Cancel</button>
+            <button>Options > ></button>
+          </div>
         </div>
       </div>
     </div>
@@ -42,7 +51,7 @@ const handleSubmit = (e: any) => {
     display: flex;
     flex-direction: column;
     border-radius: 10px;
-    width: fit-content;
+    width: 570px;
 
     .head {
       font-family: 'Source Sans 3', sans-serif;
@@ -57,7 +66,7 @@ const handleSubmit = (e: any) => {
         inset #3897ff 0 4px 3px 0;
       border-radius: 10px 10px 0 0;
       font-size: 14px;
-      cursor: grab;
+      user-select: none;
 
       > span {
         display: flex;
@@ -72,17 +81,90 @@ const handleSubmit = (e: any) => {
       background-color: #fff;
 
       .content {
-        form {
-          display: flex;
-          flex-direction: column;
-          padding: 20px;
-          background-color: #edeade;
+        background-color: #edeade;
 
-          gap: 4px;
+        .header {
+          position: relative;
+          padding: 20px 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgb(115, 149, 238);
+          background: linear-gradient(
+            90deg,
+            #6185e6 0%,
+            rgba(184, 200, 232, 1) 65%,
+            #6185e6 100%
+          );
+
+          &::before {
+            content: '';
+            height: 5px;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            background: rgb(115, 149, 238);
+            background: linear-gradient(
+              90deg,
+              rgba(115, 149, 238, 1) 0%,
+              rgba(246, 149, 56, 1) 50%,
+              rgba(105, 141, 230, 1) 100%
+            );
+          }
+
+          > div {
+            position: absolute;
+            bottom: 8px;
+            left: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            color: white;
+            font-size: 12px;
+            font-family: Arial, Helvetica, sans-serif;
+          }
+
+          img:first-of-type {
+            width: 50%;
+          }
+
+          img:last-of-type {
+            width: 13%;
+            position: absolute;
+            bottom: 6px;
+            right: 5px;
+          }
+        }
+
+        form {
+          display: grid;
+          grid-template-columns: 80px 1fr;
+          padding: 20px 100px 20px 10px;
+          gap: 10px;
+
+          label {
+            &::first-letter {
+              text-decoration: underline;
+            }
+          }
+        }
+
+        > div:last-of-type {
+          padding: 0 10px;
+          display: flex;
+          justify-content: end;
+          gap: 5px;
+          padding-bottom: 15px;
 
           button {
-            margin-top: 6px;
-            padding: 5px;
+            width: 100px;
+            cursor: pointer;
+
+            &:last-of-type {
+              &::first-letter {
+                text-decoration: underline;
+              }
+            }
           }
         }
       }
