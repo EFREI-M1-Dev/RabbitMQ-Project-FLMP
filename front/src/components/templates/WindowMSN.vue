@@ -11,7 +11,9 @@ const message = ref('');
 const messageHistory: Ref<Message[]> = ref([]);
 const messageContainer = ref<HTMLElement | null>(null);
 
-const sendMessage = () => {
+const sendMessage = (e: any) => {
+  e.preventDefault();
+
   if (message.value === '') return;
 
   const messageToSend = message.value;
@@ -65,7 +67,9 @@ watch(messageHistory.value, () => {
     <div class="content">
       <div class="discussion-container">
         <div class="discussion">
-          <div class="receiver-container">To: <span>David</span> &lt;david@windows.net&gt;</div>
+          <div class="receiver-container">
+            To: <span>David</span> &lt;david@windows.net&gt;
+          </div>
           <div class="message-container" ref="messageContainer">
             <div class="caution">
               <p>
@@ -99,10 +103,14 @@ watch(messageHistory.value, () => {
               <span class="triangle"></span>
             </div>
           </div>
-          <div class="field">
-            <textarea v-model="message"></textarea>
-            <button @click="sendMessage">Send</button>
-          </div>
+          <form class="field" @submit.prevent="sendMessage">
+            <textarea
+              required
+              v-model="message"
+              @keydown.enter="sendMessage"
+            ></textarea>
+            <button type="submit">Send</button>
+          </form>
         </div>
         <div class="photo">
           <img src="/img/ouafouaf.png" alt="" />
@@ -204,7 +212,7 @@ watch(messageHistory.value, () => {
 
             span {
               font-weight: bold;
-              color: black
+              color: black;
             }
           }
 
@@ -293,7 +301,8 @@ watch(messageHistory.value, () => {
             width: 20%;
             cursor: pointer;
             border: 1px solid #8d9195;
-            box-shadow: inset #a0b2d3 -2px 0 3px 0, inset #a0b2d3 0 -2px 3px 0, inset #ffffff 0 2px 3px 0;
+            box-shadow: inset #a0b2d3 -2px 0 3px 0, inset #a0b2d3 0 -2px 3px 0,
+              inset #ffffff 0 2px 3px 0;
             border-radius: 4px;
             margin: 5px;
             color: #7b848f;
