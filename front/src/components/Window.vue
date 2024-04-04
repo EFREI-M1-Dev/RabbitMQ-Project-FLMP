@@ -5,10 +5,9 @@ import { Tab } from '@/_interfaces/Tab.ts';
 defineProps<{ tab: Tab }>();
 const emit = defineEmits(['closeWindow']);
 
-function closeWindow(type: string){
+function closeWindow(type: string) {
   emit('closeWindow', type);
 }
-
 </script>
 
 <template>
@@ -142,8 +141,8 @@ function closeWindow(type: string){
       padding: 0 14px;
       gap: 18px;
 
-      li{
-        &::first-letter{
+      li {
+        &::first-letter {
           text-decoration: underline;
         }
       }

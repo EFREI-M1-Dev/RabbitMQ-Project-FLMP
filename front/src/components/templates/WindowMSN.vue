@@ -27,7 +27,10 @@ socket.on('new message', (message, user) => {
 });
 
 socket.on('user joined', (user) => {
-  messageHistory.value.push({content: 'has joined the conversation.', sender: user});
+  messageHistory.value.push({
+    content: 'has joined the conversation.',
+    sender: user,
+  });
 });
 
 onBeforeMount(() => {
@@ -89,11 +92,11 @@ watch(messageHistory.value, () => {
         <div class="discussion">
           <div class="edit-text">
             <div>
-              <img />
+              <img src="/icons/serif.png" />
               <span>Font</span>
             </div>
             <div>
-              <img />
+              <img src="/icons/regular_smile.png" />
               <span class="triangle"></span>
             </div>
           </div>
@@ -142,7 +145,11 @@ watch(messageHistory.value, () => {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 3px;
+        gap: 2px;
+        cursor: pointer;
+        color: #1b1b1b;
+        font-size: 11px;
+
         img {
           width: 40px;
           aspect-ratio: 1 / 1;
@@ -197,19 +204,26 @@ watch(messageHistory.value, () => {
           &.edit-text {
             display: flex;
             align-items: center;
+            gap: 10px;
 
             > div {
               display: flex;
               align-items: center;
-              gap: 4px;
+              gap: 1px;
+              padding: 2px 0;
+
+              img {
+                height: 20px;
+              }
 
               .triangle {
                 width: 0;
                 height: 0;
-                border-left: 2px solid transparent;
-                border-right: 2px solid transparent;
+                border-left: 4px solid transparent;
+                border-right: 4px solid transparent;
 
-                border-top: 4px solid #000;
+                border-top: 6px solid #000;
+                margin-left: 3px;
               }
             }
           }
@@ -258,12 +272,19 @@ watch(messageHistory.value, () => {
             display: flex;
             width: 100%;
             height: 100%;
+            resize: none;
+
+            &:focus-visible {
+              outline: none;
+            }
           }
 
           button {
             height: 60%;
             width: 25%;
             cursor: pointer;
+            border: 1px solid gray;
+            border-radius: 4px;
           }
         }
       }
