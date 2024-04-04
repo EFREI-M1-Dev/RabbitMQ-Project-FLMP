@@ -105,6 +105,10 @@ function closeWindow(type: string) {
           inset #ffffff99 4px 2px 8px 0px,
           inset rgba(14, 80, 237, 0.5) 1px 1px 0 0, inset #0844c3 -1px -1px 0 0;
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2px 2px 3.5px 2px;
 
         &:hover {
           background: #487ef3;
