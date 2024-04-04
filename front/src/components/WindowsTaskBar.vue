@@ -70,7 +70,7 @@ function formatTime() {
     color: white;
     background: linear-gradient(180deg, rgb(32 176 251) 0%, rgb(14 137 234) 50%, rgb(21 147 233) 100%);
     box-sizing: border-box;
-    box-shadow: inset #22b5fc -2px 0 3px 0, inset #1481df 0 -2px 3px 0, inset #1779a8 0 2px 3px 0;
+    box-shadow: inset #5a89a0 -2px 0 3px 0, inset #3a546e 0 -2px 3px 0, inset #e2e7ff 0 2px 3px 0;
     height: 100%;
     display: flex;
     align-items: center;
