@@ -1,5 +1,8 @@
+//@ts-check
+
 const express = require('express');
 const http = require('http');
+const bodyParser = require('body-parser');
 const socketIo = require('socket.io');
 const amqp = require('amqplib/callback_api');
 
@@ -8,8 +11,11 @@ const server = http.createServer(app);
 
 const PORT = process.env.PORT || 3000;
 
+app.use(bodyParser.json());
+
 app.use('/', require('./controllers'));
 
+// @ts-ignore
 const io = socketIo(server, {
   cors: {
     origin: '*',
@@ -54,6 +60,8 @@ amqp.connect('amqp://localhost', function (error0, connection) {
     channel.consume(
       queue,
       function (msg) {
+        if (msg === null) return;
+
         const messageData = JSON.parse(msg.content.toString());
         console.log(
           `Received ${messageData.message} from ${messageData.username}`,
