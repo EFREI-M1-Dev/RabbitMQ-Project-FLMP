@@ -13,7 +13,11 @@ const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
-app.use('/', require('./controllers'));
+app.use(express.static('public'));
+
+// Routes
+app.use('/login', require('./routes/login'));
+app.use('/register', require('./routes/register'));
 
 // @ts-ignore
 const io = socketIo(server, {
