@@ -10,7 +10,7 @@ const msgError: Ref<string> = ref('');
 const emit = defineEmits(['login']);
 async function handleSubmit() {
   if (!usernameInput.value || !passwordInput.value) {
-    alert("Veuillez remplir tous les champs");
+    msgError.value = "Veuillez remplir tous les champs";
     return;
   }
   try{
@@ -23,8 +23,31 @@ async function handleSubmit() {
       emit('login')
     }
   } catch (error) {
-    msgError.value = "Nom d'utilisateur ou mot de passe incorrect";
+    msgError.value = "- Nom d'utilisateur ou mot de passe incorrect <br>OU <br>-Veuillez vous inscrire !";
   }
+}
+
+async function registerUser(){
+  if (!usernameInput.value || !passwordInput.value) {
+    msgError.value = "Veuillez remplir tous les champs";
+    return;
+  }
+
+  try{
+    const response = await axios.post('http://localhost:3000/register', {
+      username: usernameInput.value,
+      password: passwordInput.value
+    });
+    if (response.status === 201) {
+      localStorage.setItem('user', usernameInput.value)
+      emit('login')
+    } else if (response.status === 204){
+      msgError.value = "- Nom d'utilisateur déjà utilisé";
+    }
+  } catch (error) {
+    msgError.value = "Erreur de connexion réseau!";
+  }
+
 }
 </script>
 
@@ -34,7 +57,7 @@ async function handleSubmit() {
       <div class="head">
         <span>Log On to Windows</span>
       </div>
-      <form class="content-border">
+      <form class="content-border" method="post">
         <div class="content">
           <div class="header">
             <img src="/icons/windows_xp_pro.svg" />
@@ -50,13 +73,12 @@ async function handleSubmit() {
             <label for="password">Password:</label>
             <input name="password" type="password" v-model="passwordInput" placeholder="guest"/>
             <p v-if="msgError">
-              <span class="error-message">{{ msgError }}</span>
+              <span class="error-message" v-html="msgError"></span>
             </p>
           </div>
           <div>
-            <button type="submit" @click.prevent="handleSubmit">OK</button>
-            <button>Cancel</button>
-            <button>Options > ></button>
+            <button type="submit" @click.prevent="handleSubmit">Login</button>
+            <button @click.prevent="registerUser">Register</button>
           </div>
         </div>
       </form>
