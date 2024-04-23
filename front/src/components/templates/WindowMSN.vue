@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import socket from '@/socket.js';
-import { onBeforeMount, ref, Ref, watch } from 'vue';
+import {onBeforeMount, ref, Ref, watch} from 'vue';
 
 interface Message {
   content: string;
   sender: string;
 }
 
+const userAccount = localStorage.getItem('user');
 const message = ref('');
 const messageHistory: Ref<Message[]> = ref([]);
 const messageContainer = ref<HTMLElement | null>(null);
@@ -25,7 +26,7 @@ const sendMessage = (e: any) => {
 };
 
 socket.on('new message', (message, user) => {
-  messageHistory.value.push({ content: message, sender: user });
+  messageHistory.value.push({content: message, sender: user});
 });
 
 socket.on('user joined', (user) => {
@@ -36,7 +37,7 @@ socket.on('user joined', (user) => {
 });
 
 onBeforeMount(() => {
-  socket.emit('user joined', 'user' + Math.floor(Math.random() * 1000));
+  socket.emit('user joined', userAccount);
 });
 
 function scrollToBottom() {
@@ -56,12 +57,12 @@ watch(messageHistory.value, () => {
   <div class="window">
     <div class="header">
       <ul class="menu">
-        <li><img src="/icons/msn-default.png" /><span>Invite</span></li>
-        <li><img src="/icons/msn-default.png" /><span>Send Files</span></li>
-        <li><img src="/icons/msn-default.png" /><span>Video</span></li>
-        <li><img src="/icons/msn-default.png" /><span>Voice</span></li>
-        <li><img src="/icons/msn-default.png" /><span>Activities</span></li>
-        <li><img src="/icons/msn-default.png" /><span>Games</span></li>
+        <li><img src="/icons/msn-default.png"/><span>Invite</span></li>
+        <li><img src="/icons/msn-default.png"/><span>Send Files</span></li>
+        <li><img src="/icons/msn-default.png"/><span>Video</span></li>
+        <li><img src="/icons/msn-default.png"/><span>Voice</span></li>
+        <li><img src="/icons/msn-default.png"/><span>Activities</span></li>
+        <li><img src="/icons/msn-default.png"/><span>Games</span></li>
       </ul>
     </div>
     <div class="content">
@@ -79,9 +80,9 @@ watch(messageHistory.value, () => {
             </div>
             <span class="separator">--------------</span>
             <div
-              class="message"
-              v-for="(message, index) in messageHistory"
-              :key="index"
+                class="message"
+                v-for="(message, index) in messageHistory"
+                :key="index"
             >
               <span class="author"> {{ message.sender }} says: </span>
               <span class="msg-content">{{ message.content }}</span>
@@ -89,31 +90,31 @@ watch(messageHistory.value, () => {
           </div>
         </div>
         <div class="photo">
-          <img src="/img/coincoin.png" alt="" />
+          <img src="/img/coincoin.png" alt=""/>
         </div>
       </div>
       <div class="write-container">
         <div class="discussion">
           <div class="edit-text">
             <div>
-              <img src="/icons/serif.png" />
+              <img src="/icons/serif.png"/>
             </div>
             <div>
-              <img src="/icons/regular_smile.png" />
+              <img src="/icons/regular_smile.png"/>
               <span class="triangle"></span>
             </div>
           </div>
           <form class="field" @submit.prevent="sendMessage">
             <textarea
-              required
-              v-model="message"
-              @keydown.enter="sendMessage"
+                required
+                v-model="message"
+                @keydown.enter="sendMessage"
             ></textarea>
             <button type="submit">Send</button>
           </form>
         </div>
         <div class="photo">
-          <img src="/img/ouafouaf.png" alt="" />
+          <img src="/img/ouafouaf.png" alt=""/>
         </div>
       </div>
     </div>
@@ -132,14 +133,14 @@ watch(messageHistory.value, () => {
     display: flex;
     background: rgb(245, 248, 253);
     background: linear-gradient(
-      180deg,
-      rgba(245, 248, 253, 1) 0%,
-      rgba(184, 200, 232, 1) 50%,
-      rgba(245, 248, 253, 1) 100%
+            180deg,
+            rgba(245, 248, 253, 1) 0%,
+            rgba(184, 200, 232, 1) 50%,
+            rgba(245, 248, 253, 1) 100%
     );
     box-sizing: border-box;
     box-shadow: inset #9d9d9d -2px 0 3px 0, inset #878787 0 -2px 3px 0,
-      inset #c5c5c5 0 2px 3px 0;
+    inset #c5c5c5 0 2px 3px 0;
     border-radius: 5px;
 
     .menu {
@@ -166,6 +167,7 @@ watch(messageHistory.value, () => {
       span {
         display: inline-block;
       }
+
       span::first-letter {
         text-decoration: underline;
       }
@@ -197,10 +199,10 @@ watch(messageHistory.value, () => {
 
         > div:first-of-type {
           background: linear-gradient(
-            180deg,
-            #dae3f3 0%,
-            #edf3fb 50%,
-            #dae3f3 100%
+                  180deg,
+                  #dae3f3 0%,
+                  #edf3fb 50%,
+                  #dae3f3 100%
           );
           border-bottom: 1px solid gray;
           border-radius: 8px 8px 0 0;
@@ -302,7 +304,7 @@ watch(messageHistory.value, () => {
             cursor: pointer;
             border: 1px solid #8d9195;
             box-shadow: inset #a0b2d3 -2px 0 3px 0, inset #a0b2d3 0 -2px 3px 0,
-              inset #ffffff 0 2px 3px 0;
+            inset #ffffff 0 2px 3px 0;
             border-radius: 4px;
             margin: 5px;
             color: #7b848f;
