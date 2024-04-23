@@ -1,6 +1,7 @@
 //@ts-check
 
 const express = require('express');
+var cors = require('cors');
 const http = require('http');
 const bodyParser = require('body-parser');
 const socketIo = require('socket.io');
@@ -10,6 +11,8 @@ const app = express();
 const server = http.createServer(app);
 
 const PORT = process.env.PORT || 3000;
+
+app.use(cors());
 
 app.use(bodyParser.json());
 

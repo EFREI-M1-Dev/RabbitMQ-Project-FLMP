@@ -1,7 +1,6 @@
 <script setup lang="ts">
-
-import {Ref, ref} from "vue";
-import axios from "axios";
+import { Ref, ref } from 'vue';
+import axios from 'axios';
 
 const usernameInput: Ref<string> = ref('');
 const passwordInput: Ref<string> = ref('');
@@ -10,19 +9,20 @@ const msgError: Ref<string> = ref('');
 const emit = defineEmits(['login']);
 async function handleSubmit() {
   if (!usernameInput.value || !passwordInput.value) {
-    alert("Veuillez remplir tous les champs");
+    alert('Veuillez remplir tous les champs');
     return;
   }
-  try{
+  try {
     const response = await axios.post('http://localhost:3000/login', {
       username: usernameInput.value,
-      password: passwordInput.value
+      password: passwordInput.value,
     });
     if (response.status === 200) {
-      localStorage.setItem('user', usernameInput.value)
-      emit('login')
+      localStorage.setItem('user', usernameInput.value);
+      emit('login');
     }
   } catch (error) {
+    console.log(error);
     msgError.value = "Nom d'utilisateur ou mot de passe incorrect";
   }
 }
@@ -46,9 +46,19 @@ async function handleSubmit() {
           </div>
           <div class="form">
             <label for="username">User name:</label>
-            <input name="username" type="text" v-model="usernameInput" placeholder="guest"/>
+            <input
+              name="username"
+              type="text"
+              v-model="usernameInput"
+              placeholder="guest"
+            />
             <label for="password">Password:</label>
-            <input name="password" type="password" v-model="passwordInput" placeholder="guest"/>
+            <input
+              name="password"
+              type="password"
+              v-model="passwordInput"
+              placeholder="guest"
+            />
             <p v-if="msgError">
               <span class="error-message">{{ msgError }}</span>
             </p>
@@ -65,7 +75,7 @@ async function handleSubmit() {
 </template>
 
 <style lang="scss" scoped>
-.error-message{
+.error-message {
   color: red;
 }
 .container-page {
