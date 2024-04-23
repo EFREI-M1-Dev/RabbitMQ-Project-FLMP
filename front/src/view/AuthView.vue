@@ -1,7 +1,6 @@
 <script setup lang="ts">
-
-import {Ref, ref} from "vue";
-import axios from "axios";
+import { Ref, ref } from 'vue';
+import axios from 'axios';
 
 const usernameInput: Ref<string> = ref('');
 const passwordInput: Ref<string> = ref('');
@@ -87,7 +86,7 @@ async function registerUser(){
 </template>
 
 <style lang="scss" scoped>
-.error-message{
+.error-message {
   color: red;
 }
 .container-page {
