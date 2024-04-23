@@ -15,11 +15,16 @@ function formatTime() {
   hours = hours ? hours : 12;
   return `${hours}:${minutes} ${ampm}`;
 }
+
+function logout(){
+  localStorage.removeItem('user');
+  location.reload();
+}
 </script>
 
 <template>
   <div class="taskbar">
-    <img src="/img/start_btn.png" alt="">
+    <img src="/img/start_btn.png" alt="" title="Déconnexion" @click="logout">
 
     <div class="taskbar__tabs">
       <WindowsTab v-for="tab in tabs" :key="tab.title" :tab="tab" />

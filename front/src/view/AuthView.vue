@@ -1,8 +1,31 @@
 <script setup lang="ts">
-const handleSubmit = (e: any) => {
-  e.preventDefault();
-  console.log('submit');
-};
+
+import {Ref, ref} from "vue";
+import axios from "axios";
+
+const usernameInput: Ref<string> = ref('');
+const passwordInput: Ref<string> = ref('');
+const msgError: Ref<string> = ref('');
+
+const emit = defineEmits(['login']);
+async function handleSubmit() {
+  if (!usernameInput.value || !passwordInput.value) {
+    alert("Veuillez remplir tous les champs");
+    return;
+  }
+  try{
+    const response = await axios.post('http://localhost:3000/login', {
+      username: usernameInput.value,
+      password: passwordInput.value
+    });
+    if (response.status === 200) {
+      localStorage.setItem('user', usernameInput.value)
+      emit('login')
+    }
+  } catch (error) {
+    msgError.value = "Nom d'utilisateur ou mot de passe incorrect";
+  }
+}
 </script>
 
 <template>
@@ -11,7 +34,7 @@ const handleSubmit = (e: any) => {
       <div class="head">
         <span>Log On to Windows</span>
       </div>
-      <div class="content-border">
+      <form class="content-border">
         <div class="content">
           <div class="header">
             <img src="/icons/windows_xp_pro.svg" />
@@ -21,26 +44,32 @@ const handleSubmit = (e: any) => {
             </div>
             <img src="/icons/microsoft.png" />
           </div>
-          <form @submit="handleSubmit">
+          <div class="form">
             <label for="username">User name:</label>
-            <input name="username" type="text" />
+            <input name="username" type="text" v-model="usernameInput" placeholder="guest"/>
             <label for="password">Password:</label>
-            <input name="password" type="password" />
-          </form>
+            <input name="password" type="password" v-model="passwordInput" placeholder="guest"/>
+            <p v-if="msgError">
+              <span class="error-message">{{ msgError }}</span>
+            </p>
+          </div>
           <div>
-            <button>OK</button>
+            <button type="submit" @click.prevent="handleSubmit">OK</button>
             <button>Cancel</button>
             <button>Options > ></button>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.error-message{
+  color: red;
+}
 .container-page {
-  height: 100%;
+  height: 100vh;
   width: 100%;
   display: flex;
   align-items: center;
@@ -136,7 +165,7 @@ const handleSubmit = (e: any) => {
           }
         }
 
-        form {
+        .form {
           display: grid;
           grid-template-columns: 80px 1fr;
           padding: 20px 100px 20px 10px;
