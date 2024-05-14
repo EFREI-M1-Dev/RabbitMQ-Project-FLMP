@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    build:
+      context: ./rabbitmq
+      dockerfile: Dockerfile
+    container_name: rabbitmq_service
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - app_network
+
+  back:
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+    container_name: back_service
+    depends_on:
+      - rabbitmq
+    ports:
+      - "3000:3000"
+    environment:
+      - RABBITMQ_URL=amqp://rabbitmq_service
+    networks:
+      - app_network
+    restart: always
+
+networks:
+  app_network:

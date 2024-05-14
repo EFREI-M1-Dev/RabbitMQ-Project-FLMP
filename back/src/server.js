@@ -30,58 +30,66 @@ const io = socketIo(server, {
   },
 });
 
-amqp.connect('amqp://localhost', function (error0, connection) {
-  if (error0) {
-    throw error0;
-  }
-  connection.createChannel(function (error1, channel) {
-    if (error1) {
-      throw error1;
+const rabbitmqUrl = process.env.RABBITMQ_URL || 'amqp://localhost';
+const RETRY_INTERVAL = 5000;
+
+function connectToRabbitMQ() {
+  amqp.connect(rabbitmqUrl, function (error0, connection) {
+    if (error0) {
+      console.error(`Failed to connect to RabbitMQ: ${error0.message}`);
+      return setTimeout(connectToRabbitMQ, RETRY_INTERVAL);
     }
+    connection.createChannel(function (error1, channel) {
+      if (error1) {
+        throw error1;
+      }
 
-    const queue = 'chat';
+      const queue = 'chat';
 
-    channel.assertQueue(queue, {
-      durable: true,
-    });
-
-    io.on('connection', (socket) => {
-      socket.on('user joined', (user) => {
-        socket.username = user;
-        io.emit('user joined', user);
+      channel.assertQueue(queue, {
+        durable: true,
       });
 
-      socket.on('new message', (msg) => {
-        const messageData = {
-          message: msg,
-          username: socket.username,
-        };
-
-        channel.sendToQueue(queue, Buffer.from(JSON.stringify(messageData)), {
-          persistent: true,
+      io.on('connection', (socket) => {
+        socket.on('user joined', (user) => {
+          socket.username = user;
+          io.emit('user joined', user);
         });
-        console.log('Sent', msg);
+
+        socket.on('new message', (msg) => {
+          const messageData = {
+            message: msg,
+            username: socket.username,
+          };
+
+          channel.sendToQueue(queue, Buffer.from(JSON.stringify(messageData)), {
+            persistent: true,
+          });
+          console.log('Sent', msg);
+        });
       });
+
+      channel.consume(
+        queue,
+        function (msg) {
+          if (msg === null) return;
+
+          const messageData = JSON.parse(msg.content.toString());
+          console.log(
+            `Received ${messageData.message} from ${messageData.username}`,
+          );
+
+          io.emit('new message', messageData.message, messageData.username);
+        },
+        {
+          noAck: true,
+        },
+      );
     });
-
-    channel.consume(
-      queue,
-      function (msg) {
-        if (msg === null) return;
-
-        const messageData = JSON.parse(msg.content.toString());
-        console.log(
-          `Received ${messageData.message} from ${messageData.username}`,
-        );
-
-        io.emit('new message', messageData.message, messageData.username);
-      },
-      {
-        noAck: true,
-      },
-    );
   });
-});
+}
+
+connectToRabbitMQ();
 
 server.listen(PORT, function () {
   console.log(`Listening on port ${PORT}`);
