@@ -1,6 +1,14 @@
 # RabbitMQ Project
 
-## Run Locally
+## Run with Docker
+
+```bash
+  docker-compose up --build -d
+```
+
+Go to: http://localhost:3001
+
+## Run for developement
 
 ### Back
 

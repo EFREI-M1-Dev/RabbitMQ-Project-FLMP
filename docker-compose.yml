@@ -27,5 +27,18 @@ services:
       - app_network
     restart: always
 
+  front:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    container_name: front_service
+    depends_on:
+      - back
+    ports:
+      - "3001:3001"
+    networks:
+      - app_network
+    restart: always
+
 networks:
   app_network:
