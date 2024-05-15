@@ -8,6 +8,8 @@
 
 Go to: http://localhost:3001
 
+> Usage: Log in with guest:guest or create a user, then open the MSN application to chat with other people. To log out, simply click on the Start menu.
+
 ## Run for developement
 
 ### Back
