@@ -6,6 +6,12 @@ const { RABBITMQ_API_URL } = require('../config');
 
 const app = express.Router();
 
+/**
+ * Login route
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @returns {Promise<void>}
+ */
 app.post('/', async function (req, res) {
   const { username, password } = req.body;
 
@@ -22,6 +28,12 @@ app.post('/', async function (req, res) {
   }
 });
 
+/**
+ * Authenticates a user with the RabbitMQ API
+ * @param {string} username
+ * @param {string} password
+ * @returns {Promise<boolean>}
+ */
 async function authenticate(username, password) {
   const buffer = Buffer.from(`${username}:${password}`, 'utf-8');
   const auth_header = buffer.toString('base64');
@@ -31,6 +43,7 @@ async function authenticate(username, password) {
   const url = `${RABBITMQ_API_URL}/whoami`;
 
   try {
+    // Send a request to RabbitMQ to login
     // @ts-ignore
     const response = await axios.get(url, { headers });
     if (response.status === 200) {

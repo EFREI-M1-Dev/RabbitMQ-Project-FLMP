@@ -1,6 +1,4 @@
-// @ts-check
-
-const RABBITMQ_HOST = 'localhost';
+const RABBITMQ_HOST = process.env.RABBITMQ_HOST || 'localhost';
 const RABBITMQ_PORT = 15672;
 const RABBITMQ_USER = 'guest';
 const RABBITMQ_PASS = 'guest';

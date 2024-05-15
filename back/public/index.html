@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
    <head>
-      <title>Hello!</title>
+      <title>Test</title>
    </head>
    <body>
+    <h1>TEST PAGE (not the real front)</h1>
+    <a href="http://localhost:3001">Link to the real app</a>
     <form action="" class="footer">
         <div
             id="typing"
@@ -30,9 +32,13 @@
 <script>
     const socket = io();
 
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
     // User join
     document.addEventListener("DOMContentLoaded", () => {
-        socket.emit("user joined", Math.random());
+        socket.emit("user joined", getRandomInt(1, 100));
     });
 
     socket.on("user joined", (user) => {

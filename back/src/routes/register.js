@@ -6,6 +6,12 @@ const { RABBITMQ_API_URL, AUTH_HEADER } = require('../config');
 
 const app = express.Router();
 
+/**
+ * Register route
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @returns {Promise<void>}
+ */
 app.post('/', async (req, res) => {
   const { username, password } = req.body;
 
@@ -25,6 +31,7 @@ app.post('/', async (req, res) => {
   };
 
   try {
+    // Send a request to RabbitMQ for create a new user
     // @ts-ignore
     const response = await axios.put(url, user_data, { headers });
 

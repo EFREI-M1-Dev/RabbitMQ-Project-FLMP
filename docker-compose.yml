@@ -23,6 +23,7 @@ services:
       - "3000:3000"
     environment:
       - RABBITMQ_URL=amqp://rabbitmq_service
+      - RABBITMQ_HOST=rabbitmq_service
     networks:
       - app_network
     restart: always
