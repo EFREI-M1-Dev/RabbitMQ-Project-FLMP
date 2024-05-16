@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import WindowsTab from '@/components/WindowsTab.vue';
-import WindowMenu from '@/components/WindowMenu.vue';
 import { Tab } from '@/_interfaces/Tab.ts';
 
 defineProps<{
@@ -26,8 +25,6 @@ function logout() {
 
 <template>
   <div class="taskbar">
-    <WindowMenu />
-
     <img src="/img/start_btn.png" alt="" title="Déconnexion" @click="logout" />
 
     <div class="taskbar__tabs">
