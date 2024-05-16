@@ -1,5 +1,7 @@
 # RabbitMQ Project
 
+<img src="./ReadmeAssets/msn-app.png" />
+
 ## Run with Docker
 
 ```bash
@@ -65,6 +67,8 @@ Link to [Dashboard](http://localhost:15672)
 | username | password |
 | :------- | :------- |
 | `guest`  | `guest`  |
+
+<img src="./ReadmeAssets/login.png" />
 
 ## API Reference
 
